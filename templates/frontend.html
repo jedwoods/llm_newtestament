@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Testament Authors</title>
+    <style>
+        body {
+            background-color: #F5F5DC; /* Light brown */
+            color: #8B0000; /* Dark red */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center; /* Center align all text */
+        }
+
+        h1 {
+            color: #8B0000; /* Dark red */
+            text-align: center;
+        }
+
+        label {
+            color: #8B0000; /* Dark red */
+            display: block; /* Ensure labels are displayed as block elements for proper centering */
+            margin-bottom: 10px; /* Add space between label and input/select */
+        }
+
+        select, textarea {
+            margin: 0 auto; /* Center horizontally */
+            padding: 5px;
+            width: calc(100% - 20px);
+            display: block; /* Ensure select and textarea are displayed as block elements for proper centering */
+        }
+
+        button {
+            margin: 10px auto; /* Center horizontally */
+            padding: 10px 20px;
+            background-color: #8B0000; /* Dark red */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block; /* Ensure button is displayed as a block element for proper centering */
+        }
+
+        button:hover {
+            background-color: #B22222; /* Red */
+        }
+
+        #response {
+            margin: 10px auto; /* Center horizontally */
+            padding: 10px;
+            background-color: white;
+            border-radius: 5px;
+            width: calc(100% - 20px);
+            text-align: left; /* Align response text to the left */
+        }
+    </style>
+</head>
+<body>
+    <h1>New Testament Authors</h1>
+    <label for="author-select">Select an author:</label>
+    <select id="author-select">
+        <option value="Matthew">Matthew</option>
+        <option value="Mark">Mark</option>
+        <option value="Luke">Luke</option>
+        <option value="John">John</option>
+    </select>
+    <br>
+    <label for="input-text">What would you like to ask?</label>
+    <!-- <br> -->
+    <textarea id="input-text" rows="4" cols="50"></textarea>
+    <button onclick="sendMessage()">Send</button>
+    <div id="response"></div>
+
+    <script>
+        function sendMessage() {
+            var author = document.getElementById('author-select').value;
+            var inputText = document.getElementById('input-text').value;
+            fetch('http://localhost:5000/chat', { // Update the URL to your backend URL
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    author: author,
+                    input_text: inputText
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('response').innerText = data.response;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
